@@ -1,0 +1,26 @@
+[project]
+name = "orka"
+version = "0.1.0"
+description = "Local-first multi-agent coding orchestrator"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "chromadb>=1.5.8",
+    "langgraph>=1.1.10",
+    "litellm>=1.83.0",
+    "ollama>=0.6.1",
+    "pydantic>=2.13.3",
+    "pydantic-settings>=2.14.0",
+    "python-dotenv>=1.2.2",
+    "rich>=15.0.0",
+    "typer>=0.25.0",
+]
+
+[project.scripts]
+orka = "orka.cli.main:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+    "ruff>=0.15.12",
+]
