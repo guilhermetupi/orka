@@ -4,16 +4,22 @@ from orka.core.state import OrkaState
 
 
 def self_check_node(state: OrkaState) -> OrkaState:
-    # barato e determinístico por enquanto
     result = state.get("result", "")
 
-    if not result.strip():
+    # ❌ se não tem resultado → NÃO revisar
+    if not result.strip() or result == "No implementation generated.":
         return {
             **state,
-            "needs_review": True,
+            "needs_review": False,
         }
 
-    return state
+    # heurística simples de qualidade
+    low_quality = len(result) < 100
+
+    return {
+        **state,
+        "needs_review": state.get("needs_review", False) and not low_quality,
+    }
 
 
 def reviewer_node(state: OrkaState) -> OrkaState:

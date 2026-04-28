@@ -91,7 +91,7 @@ def index():
 
 
 @app.command()
-def implement(prompt: str) -> None:
+def implement(prompt: str, tier: str | None = None) -> None:
     """Propose an implementation using Orka's multi-agent flow."""
 
     setup_litellm()
@@ -109,6 +109,7 @@ def implement(prompt: str) -> None:
             "mode": "implement",
             "prompt": prompt,
             "context": context,
+            "tier": tier,
         }
     )
 

@@ -13,23 +13,26 @@ def worker_node(state: OrkaState) -> OrkaState:
                 "role": "system",
                 "content": (
                     "You are Orka's implementation agent.\n"
-                    "Use the provided context when relevant.\n"
-                    "For now, do not edit files directly.\n"
-                    "Return a concise implementation proposal."
+                    "Return a clear implementation proposal.\n"
+                    "DO NOT return empty responses.\n"
+                    "Be specific and actionable."
                 ),
             },
             {
                 "role": "user",
                 "content": f"""
-                  Mode: {state["mode"]}
-                  Task: {state["prompt"]}
+Task: {state["prompt"]}
 
-                  Context:
-                  {state.get("context", "")}
-                """,
+Context:
+{state.get("context", "")}
+""",
             },
         ],
     )
+
+    # 🔥 fallback defensivo
+    if not response or not response.strip():
+        response = "No implementation generated."
 
     return {
         **state,

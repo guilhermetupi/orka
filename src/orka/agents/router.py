@@ -34,7 +34,9 @@ def router_node(state: OrkaState) -> OrkaState:
     risk_score = estimate_risk(state["prompt"])
 
     tier: Tier
-    if risk_score <= 2:
+    if state.get("tier"):
+        tier = state["tier"]
+    elif risk_score <= 2:
         tier = "t0"
     elif risk_score <= 6:
         tier = "t1"
