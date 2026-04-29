@@ -134,6 +134,15 @@ def implement(
         return
 
     if not dry_run:
+        console.print("\n[bold yellow]Running review before apply...[/bold yellow]")
+
+        review = final_state.get("review")
+
+        if not review:
+            console.print("[yellow]No review available.[/yellow]")
+        else:
+            console.print("\n[bold yellow]Review:[/bold yellow]\n")
+            console.print(review)
         confirm = typer.confirm("Apply this patch?")
         if not confirm:
             console.print("Aborted.")
