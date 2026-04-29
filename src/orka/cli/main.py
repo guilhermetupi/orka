@@ -138,11 +138,10 @@ def implement(
         if not confirm:
             console.print("Aborted.")
             return
-
-    if dry_run:
-        console.print("[yellow]Mode:[/yellow] DRY RUN")
+        else:
+            console.print("[red]Mode:[/red] APPLYING CHANGES")
     else:
-        console.print("[red]Mode:[/red] APPLYING CHANGES")
+        console.print("[yellow]Mode:[/yellow] DRY RUN")
 
     try:
         apply_patch(diff, dry_run=dry_run)
