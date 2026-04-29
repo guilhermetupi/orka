@@ -7,7 +7,7 @@ from orka.core.graph import build_implement_graph
 from orka.core.llm import chat, setup_litellm
 from orka.core.router import get_model_for_tier
 from orka.rag.indexer import index_project
-from orka.tools.patch import PatchError, apply_patch
+from orka.tools.patch import PatchError, apply_patch, extract_diff, normalize_diff
 from orka.tools.rag import search
 
 app = typer.Typer(
@@ -122,12 +122,16 @@ def implement(
     console.print(f"[dim]Needs review:[/dim] {final_state.get('needs_review')}")
 
     diff = final_state.get("result", "")
+    diff = extract_diff(diff)
+    diff = normalize_diff(diff)
 
     console.print("\n[bold green]Patch:[/bold green]\n")
     console.print(diff)
 
     if not diff.startswith("---"):
-        raise PatchError("LLM did not return a valid diff")
+        console.print("[yellow]LLM did not return a diff. Showing raw output.[/yellow]")
+        console.print(final_state.get("result", ""))
+        return
 
     if not dry_run:
         confirm = typer.confirm("Apply this patch?")

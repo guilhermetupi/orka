@@ -12,10 +12,23 @@ def worker_node(state: OrkaState) -> OrkaState:
             {
                 "role": "system",
                 "content": (
-                    "You are Orka's implementation agent.\n"
-                    "Return a clear implementation proposal.\n"
-                    "DO NOT return empty responses.\n"
-                    "Be specific and actionable."
+                    "You are Orka's coding agent.\n"
+                    "Return ONLY a valid unified git diff.\n"
+                    "No explanations.\n"
+                    "No markdown.\n"
+                    "No text before or after.\n"
+                    "Make minimal changes only.\n"
+                    "Do not rewrite entire files unless necessary.\n"
+                    "Only modify the necessary lines.\n"
+                    "The output MUST start with '---'.\n"
+                    """
+Strictly follow this format:
+
+--- a/path/to/file
++++ b/path/to/file
+
+Never inline them on the same line.\n
+                    """
                 ),
             },
             {
